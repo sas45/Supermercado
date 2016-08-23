@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Supermercado</string>
+    <string name="action_settings">Settings</string>
+    <string name="scanner_text">Scanear codigo</string>
+    <string name="price_place_holder">Price</string>
+    <string name="valido_place_holder">12/12/17</string>
+    <string name="valido_ate">Válido até:</string>
+    <string name="title_place_holder">Title</string>
+    <string name="scan_cancelado">Cancelado</string>
+    <string name="carrinho_title">Carrinho</string>
+</resources>
