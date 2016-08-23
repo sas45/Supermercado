@@ -13,6 +13,7 @@
         <!--android:title="@string/action_settings"-->
         <!--android:icon="@drawable/ic_add_shopping_cart_white_48dp"-->
         <!--app:showAsAction="always" />-->
+
     <item
         android:id="@+id/action_search"
         android:orderInCategory="100"
