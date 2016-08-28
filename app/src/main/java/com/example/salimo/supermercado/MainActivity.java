@@ -4,30 +4,43 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.salimo.supermercado.model.Item;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
 
-    ProgressBar pb;
-    List<Item> itemList;
+    private ProgressBar pb;
+    private List<Product> productsList;
+    private RecyclerView mReciclerView;
+    private PopupWindow popupWindow;
+    private RelativeLayout popupWindowLayout;
+
+    private DrawerLayout mDrawerLayout;
+    private TextView mTxvMenuItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +50,19 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.carrinho_title));
 
-        pb = (ProgressBar) findViewById(R.id.progressBar1);
-        pb.setVisibility(View.VISIBLE);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-        if (isOnline()) {
-            requestData();
-        } else {
-            Toast.makeText(MainActivity.this, "Sem ligação a Internet", Toast.LENGTH_LONG).show();
-        }
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.close);
+        mDrawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        iniatilizeFloatingButton();
+    }
+
+    private void iniatilizeFloatingButton() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +90,39 @@ public class MainActivity extends AppCompatActivity {
             if (result.getContents() == null) {
                 Toast.makeText(MainActivity.this, R.string.scan_cancelado, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MainActivity.this, result.getContents(), Toast.LENGTH_LONG).show();
+                try {
+                    Toast.makeText(MainActivity.this, result.getContents(), Toast.LENGTH_LONG).show();
+                    startPopUpWindow(result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void startPopUpWindow(IntentResult result) {
+        LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.activity_scanner_result, null);
+        popupWindow = new PopupWindow(customView, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        ImageButton closePopUp = (ImageButton) findViewById(R.id.close_popup);
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindowLayout = (RelativeLayout) findViewById(R.id.popup_window);
+
+        popupWindow.showAtLocation(popupWindowLayout, Gravity.CENTER, 0, 0);
+
+        TextView barcode = (TextView) findViewById(R.id.tv_barcode);
+
+        barcode.setText(result.getContents().toString());
     }
 
     @Override
@@ -116,25 +161,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void requestData() {
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        Intent intent = new Intent();
 
+        int id = item.getItemId();
+        switch (id){
+            case R.id.conta:
+                hideDrawer();
+                break;
+            case R.id.definicoes:
+                hideDrawer();
+                break;
+            case R.id.feedback:
+                hideDrawer();
+                break;
+        }
+
+        return true;
     }
 
-    private class MyTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            pb.setVisibility(View.INVISIBLE);
-        }
+    private void hideDrawer() {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
+
+
 }

@@ -8,4 +8,6 @@
     <string name="title_place_holder">Title</string>
     <string name="scan_cancelado">Cancelado</string>
     <string name="carrinho_title">Carrinho</string>
+    <string name="drawer_open">open</string>
+    <string name="close">close</string>
 </resources>
