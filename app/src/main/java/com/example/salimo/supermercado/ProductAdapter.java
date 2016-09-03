@@ -1,30 +1,45 @@
 package com.example.salimo.supermercado;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by salim on 8/27/2016.
  */
-public class ProductAdapter extends BaseAdapter {
-    @Override
-    public int getCount() {
-        return 0;
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Holder> {
+
+    private List<Product> mProduct;
+
+    public ProductAdapter() {
+        mProduct = new ArrayList<>();
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item, parent, false);
+        return new Holder(row);
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
+    public void onBindViewHolder(Holder holder, int position) {
+
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+    public int getItemCount() {
+        return mProduct.size();
+    }
+
+    public class Holder extends RecyclerView.ViewHolder{
+
+        public Holder(View itemView) {
+            super(itemView);
+        }
     }
 }
