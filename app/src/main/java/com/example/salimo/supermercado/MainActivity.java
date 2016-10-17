@@ -41,7 +41,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public double total = 0;
-    StatusAdapter statusAdapter;
+    private StatusAdapter statusAdapter;
     private ProgressDialog progress;
     private Button pagar;
     private FloatingActionButton fab;
