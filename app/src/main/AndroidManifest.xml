@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name="com.example.salimo.supermercado.services.BroadcastService" />
+        <service android:name=".services.BroadcastService" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -22,7 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScannerResult"></activity>
+        <activity
+            android:name=".Conta"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Settings"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".FeedBack"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

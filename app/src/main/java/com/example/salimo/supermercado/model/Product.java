@@ -1,4 +1,4 @@
-package com.example.salimo.supermercado;
+package com.example.salimo.supermercado.model;
 
 /**
  * Created by salim on 8/27/2016.

@@ -25,20 +25,19 @@ public class BroadcastService extends Service {
 
     public static SocketIO socket;
     public static String PACKAGE_NAME;
-    String nome, lastMessage,matriculaDb;
-    int numMessages = 0,numNotificacoes= 0;
-    String mainActivityClass,chatHistoricoClass,activityPrincipalClass;
-    String mensagemControllerClass;
-    String tipo, android_id;
+    public static boolean isServiceRunning = false;
+    public static boolean isSocketConnected = false;
+    public String nome, lastMessage, matriculaDb;
+    public int numMessages = 0, numNotificacoes = 0;
+    public String mainActivityClass, chatHistoricoClass, activityPrincipalClass;
+    public String mensagemControllerClass;
+    public String tipo, android_id;
+    public boolean isConnectedTo = false;
     private String permissaoStatus;
-    public boolean isConnectedTo=false;
-    public  static boolean isServiceRunning=false;
-    public  static boolean isSocketConnected=false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
 
 
     }
@@ -59,14 +58,14 @@ public class BroadcastService extends Service {
                 socket.connect(new IOCallback() {
                     @Override
                     public void onDisconnect() {
-                        isSocketConnected=false;
+                        isSocketConnected = false;
 
 
                     }
 
                     @Override
                     public void onConnect() {
-                        isSocketConnected=true;
+                        isSocketConnected = true;
 
                         Intent broadcastIntent = new Intent();
                         broadcastIntent.setAction("connected");
@@ -87,10 +86,10 @@ public class BroadcastService extends Service {
                     public void on(String event, IOAcknowledge ack, Object... args) {
 
 
-                        if(event.equals("registo")){
+                        if (event.equals("registo")) {
                             Intent broadcastIntent = new Intent();
                             broadcastIntent.setAction("registo");
-                            broadcastIntent.putExtra("estado",args[1].toString());
+                            broadcastIntent.putExtra("estado", args[1].toString());
                             sendBroadcast(broadcastIntent);
 
                         }
@@ -115,7 +114,7 @@ public class BroadcastService extends Service {
                                     imagem = jsonArray.getJSONObject(i).getString("imagem");
                                     codigoBarras = jsonArray.getJSONObject(i).getString("codigoBarras");
 
-                                    status.add(new StatusSerial(nomeProd,validade,preco,imagem,codigoBarras));
+                                    status.add(new StatusSerial(nomeProd, validade, preco, imagem, codigoBarras));
 
 
                                 } catch (Exception e) {
@@ -148,7 +147,7 @@ public class BroadcastService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        isServiceRunning=true;
+        isServiceRunning = true;
         return null;
     }
 
@@ -162,10 +161,9 @@ public class BroadcastService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        isServiceRunning=false;
+        isServiceRunning = false;
         socket.disconnect();
     }
-
 
 
 }

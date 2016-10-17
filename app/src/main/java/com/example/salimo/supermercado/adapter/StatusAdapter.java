@@ -1,6 +1,5 @@
 package com.example.salimo.supermercado.adapter;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.salimo.supermercado.Product;
+import com.example.salimo.supermercado.model.Product;
 import com.example.salimo.supermercado.R;
 
 import java.util.ArrayList;

@@ -9,7 +9,7 @@
     <item
         android:id="@+id/definicoes"
         android:icon="@drawable/ic_settings_white_36dp"
-        android:title="Definicoes">
+        android:title="Definições">
     </item>
     <item
         android:id="@+id/feedback"
